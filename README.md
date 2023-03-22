@@ -1,15 +1,15 @@
 # goniq
-*go unique* ... simple set-like operations for Go slices. 
+*go unique* ... simple set-like operations for Go slices.
 
 :warning: This library is not considered stable. Therefore caution is advised using it for production right now.
 
 GoUnique is a Go language package that provides functions to add and remove elements from a (sorted) string slice. The package contains the functions `Add` and `Remove`.
 
-## Functions 
+## Functions
 
-### Add 
+### Add
 
-```go 
+```go
 func Add([]string, string) []string
 ```
 
@@ -18,9 +18,9 @@ func Add([]string, string) []string
 This function takes a string slice and a string as input, and returns a new sorted string slice with the input string added to it. If the input slice is empty, it creates a new slice with only the input string. If the input string is already in the slice, it returns the original slice without modifying it. Otherwise, it uses the sort.SearchStrings function from the standard library to find the position where the input string should be inserted, and inserts it using the append function.
 
 
-### Remove  
+### Remove
 
-```go 
+```go
 func Remove([]string, string) []string
 ```
 
@@ -28,9 +28,9 @@ func Remove([]string, string) []string
 
 This function takes a string slice and a string as input, and returns a new sorted string slice with the input string removed from it. If the input slice is empty or the input string is not in the slice, it returns the original slice it. Otherwise, it uses the sort.SearchStrings function to find the position of the input string in the slice, and removes it using the copy function.
 
-## Usage 
+## Usage
 
-```go 
+```go
 package main
 
 import (
@@ -46,4 +46,3 @@ func main() {
 	fmt.Println(s)
 }
 ```
-
