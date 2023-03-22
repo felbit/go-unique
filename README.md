@@ -1,5 +1,5 @@
-# go-unique
-Simple set-like operations for Go slices.
+# goniq
+*go unique* ... simple set-like operations for Go slices. 
 
 :warning: This library is not considered stable. Therefore caution is advised using it for production right now.
 

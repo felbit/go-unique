@@ -1,3 +1,3 @@
-module github.com/felbit/go-unique
+module github.com/felbit/goniq
 
 go 1.20
