@@ -1,6 +1,9 @@
 package goniq
 
-import "sort"
+import (
+	"regexp"
+	"sort"
+)
 
 type Signed interface {
 	~int | ~int8 | ~int16 | ~int32 | ~int64
@@ -77,4 +80,26 @@ func Remove[T Ordered](slice []T, element T) []T {
 		return slice[:len(slice)-1]
 	}
 	return slice
+}
+
+// RemoveStringsAkin removes strings from a slice of strings that match partially.
+// The function mutates the slice in place and is is case-sensitive.
+//
+// TODO: This function feels like it belongs in a different package.
+//
+// Example:
+//
+//	RemoveStringAkin([]string{"foobar", "foobaz", "fobar", "quuz", "qufooz"}, "foo") // => []string{"fobar", "quuz"}
+func RemoveStringsAkin(slice *[]string, str string) {
+	re := regexp.MustCompile(str)
+	idx := 0
+
+	for _, s := range *slice {
+		if !re.MatchString(s) {
+			(*slice)[idx] = s
+			idx++
+		}
+	}
+
+	*slice = (*slice)[:idx]
 }

@@ -236,3 +236,46 @@ func TestRemoveFloat(t *testing.T) {
 		})
 	}
 }
+
+func TestRemoveStringsAkin(t *testing.T) {
+	testCases := []struct {
+		title    string
+		slice    []string
+		str      string
+		expected []string
+	}{
+		{
+			title:    "no matches",
+			slice:    []string{"apple", "banana", "cherry"},
+			str:      "dog",
+			expected: []string{"apple", "banana", "cherry"},
+		},
+		{
+			title:    "one match",
+			slice:    []string{"apple", "banana", "cherry"},
+			str:      "b",
+			expected: []string{"apple", "cherry"},
+		},
+		{
+			title:    "multiple matches",
+			slice:    []string{"apple", "banana", "cherry"},
+			str:      "a",
+			expected: []string{"cherry"},
+		},
+		{
+			title:    "all matches",
+			slice:    []string{"apple", "banana", "cherry"},
+			str:      "a|e",
+			expected: []string{},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.title, func(t *testing.T) {
+			goniq.RemoveStringsAkin(&tc.slice, tc.str)
+			if !reflect.DeepEqual(tc.slice, tc.expected) {
+				t.Errorf("got %v, want %v", tc.slice, tc.expected)
+			}
+		})
+	}
+}
