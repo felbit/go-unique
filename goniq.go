@@ -27,27 +27,49 @@ func sortSlice[T Ordered](s []T) []T {
 	return s
 }
 
-func Add[T Ordered](slice []T, s T) []T {
+// NewSet takes a slice of a `comparable` type and returns possibly reduced set of unique entries of the original slice.
+// Set is unsorted. The order of elements will be the first unique appearance of elements in the original slice.
+//
+// Example:
+//
+//	NewSet([]int{3, 1, 5, 2, 3, 2, 1}) // => []int{3, 1, 5, 2}
+func NewSet[C comparable](slice []C) []C {
+	if len(slice) < 2 {
+		return slice
+	}
+
+	unique := make(map[C]bool)
+	result := make([]C, 0, len(slice))
+	for _, e := range slice {
+		if !unique[e] {
+			unique[e] = true
+			result = append(result, e)
+		}
+	}
+	return result
+}
+
+func Add[T Ordered](slice []T, element T) []T {
 	if len(slice) == 0 {
-		return []T{s}
+		return []T{element}
 	}
 
 	slice = sortSlice(slice)
-	idx := sort.Search(len(slice), func(i int) bool { return slice[i] >= s })
-	if idx == len(slice) || slice[idx] != s {
-		return append(slice[:idx], append([]T{s}, slice[idx:]...)...)
+	idx := sort.Search(len(slice), func(i int) bool { return slice[i] >= element })
+	if idx == len(slice) || slice[idx] != element {
+		return append(slice[:idx], append([]T{element}, slice[idx:]...)...)
 	}
 	return slice
 }
 
-func Remove[T Ordered](slice []T, s T) []T {
+func Remove[T Ordered](slice []T, element T) []T {
 	if len(slice) == 0 {
 		return slice
 	}
 
 	slice = sortSlice(slice)
-	idx := sort.Search(len(slice), func(i int) bool { return slice[i] >= s })
-	if idx < len(slice) && slice[idx] == s {
+	idx := sort.Search(len(slice), func(i int) bool { return slice[i] >= element })
+	if idx < len(slice) && slice[idx] == element {
 		if idx == len(slice)-1 {
 			return slice[:idx]
 		}

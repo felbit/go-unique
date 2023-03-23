@@ -13,10 +13,19 @@ Goniq is a Go language package that provides functions to add and remove element
 - "out of the way": using this package should be intuitively and not require reading documentation
 - generic implementation: where-ever possible, users should not have to care about the types of things
 - idempotent behavior: running the same operation multiple times should not change the result (this is currently violated by the behavior of `Remove` on slices with non-unique entries)
-- independent: no use of external libraries
+- independent: no use of external libraries (currently violated by `stretchr/testify)
 - resource conscious: use as little resources as possible
 
 ## Functions
+
+### NewSet
+
+```go
+func NewSet[C comparable]([]C) []C
+```
+
+This function takes a slice of a `comparable` type and returns possibly reduced set of unique entries of the original slice.
+Set is unsorted. The order of elements will be the first unique appearance of elements in the original slice.
 
 ### Add
 
@@ -58,13 +67,15 @@ import (
 )
 
 func main() {
-	s := []string{"apple", "banana", "cherry"}
+	s := []string{"apple", "banana", "apple", "cherry"}
+	s = goniq.NewSet(s) // returns ["apple", "banana", "cherry"]
 	s = goniq.Add(s, "banana") // returns ["apple", "banana", "cherry"]
 	s = goniq.Add(s, "date") // returns ["apple", "banana", "cherry", "date"]
 	s = goniq.Remove(s, "banana") // returns ["apple", "cherry", "date"]
 	fmt.Println(s)
 
-	x := []int{3, 7, 2, 4}
+	x := []int{3, 7, 2, 4, 3, 2, 3}
+	x = goniq.NewSet(x) // returns [3, 7, 2, 4]
 	x = goniq.Add(x, 7) // returns [2, 3, 4, 7]
 	x = goniq.Add(x, 5) // returns [2, 3, 4, 5, 7]
 	x = goniq.Remove(x, 3) // returns [2, 4, 5, 7]
