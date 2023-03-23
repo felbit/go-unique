@@ -18,10 +18,10 @@ Goniq is a Go language package that provides functions to add and remove element
 
 ## Functions
 
-### NewSet
+### RemoveDuplicates
 
 ```go
-func NewSet[C comparable]([]C) []C
+func RemoveDuplicates[C comparable](*[]C)
 ```
 
 This function takes a slice of a `comparable` type and returns possibly reduced set of unique entries of the original slice.
@@ -30,10 +30,8 @@ Set is unsorted. The order of elements will be the first unique appearance of el
 ### Add
 
 ```go
-func Add[T Ordered]([]T, T) []T
+func Add[T Ordered](*[]T, T)
 ```
-
->   :warning: `Add` currently returns a **sorted slice**, even if the elements do not change. This might change in the future.
 
 This function takes a slice of T and an element of T as input,
 and returns a new sorted slice of T with the input element added to it.
@@ -44,12 +42,10 @@ If the input string is already in the slice, it returns the original slice, but 
 ### Remove
 
 ```go
-func Remove[T Ordered]([]T, T) []T
+func Remove[T Ordered](*[]T, T)
 ```
 
 >   :warning: `Remove` currently returns a **sorted slice**, even if the elements fo not change. This might change in the future.
-
->   :warning: Currently, only removes one of the entries, if there are multiple entries that match the input element! This will change in the future.
 
 This function takes a slice of T and an element of T as input,
 and returns a new sorted slice of T with the input element removed from it.
@@ -68,17 +64,17 @@ import (
 
 func main() {
 	s := []string{"apple", "banana", "apple", "cherry"}
-	s = goniq.NewSet(s) // returns ["apple", "banana", "cherry"]
-	s = goniq.Add(s, "banana") // returns ["apple", "banana", "cherry"]
-	s = goniq.Add(s, "date") // returns ["apple", "banana", "cherry", "date"]
-	s = goniq.Remove(s, "banana") // returns ["apple", "cherry", "date"]
+	goniq.RemoveDuplicates(&s) // returns ["apple", "banana", "cherry"]
+	goniq.Add(&s, "banana") // returns ["apple", "banana", "cherry"]
+	goniq.Add(&s, "date") // returns ["apple", "banana", "cherry", "date"]
+	goniq.Remove(&s, "banana") // returns ["apple", "cherry", "date"]
 	fmt.Println(s)
 
 	x := []int{3, 7, 2, 4, 3, 2, 3}
-	x = goniq.NewSet(x) // returns [3, 7, 2, 4]
-	x = goniq.Add(x, 7) // returns [2, 3, 4, 7]
-	x = goniq.Add(x, 5) // returns [2, 3, 4, 5, 7]
-	x = goniq.Remove(x, 3) // returns [2, 4, 5, 7]
+	goniq.RemoveDuplicates(&x) // returns [3, 7, 2, 4]
+	goniq.Add(&x, 7) // returns [3, 7, 2, 4]
+	goniq.Add(&x, 5) // returns [3, 7, 2, 4, 5]
+	goniq.Remove(&x, 3) // returns [2, 4, 5, 7]
 	fmt.Println(x)
 }
 ```

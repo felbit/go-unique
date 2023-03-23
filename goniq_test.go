@@ -11,7 +11,7 @@ import (
 
 // TODO: Use property based testing to test all possible types
 
-func TestNewSetString(t *testing.T) {
+func TestRemoveDuplicatesString(t *testing.T) {
 	testCases := []struct {
 		title  string
 		slice  []string
@@ -26,13 +26,13 @@ func TestNewSetString(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.title, func(t *testing.T) {
-			got := goniq.NewSet(tc.slice)
-			assert.Equal(t, tc.expect, got)
+			goniq.RemoveDuplicates(&tc.slice)
+			assert.Equal(t, tc.expect, tc.slice)
 		})
 	}
 }
 
-func TestNewSetInt(t *testing.T) {
+func TestRemoveDuplicatesInt(t *testing.T) {
 	testCases := []struct {
 		title  string
 		slice  []int
@@ -45,9 +45,9 @@ func TestNewSetInt(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.title, func(t *testing.T) {
-			got := goniq.NewSet(tc.slice)
+			goniq.RemoveDuplicates(&tc.slice)
 			if !reflect.DeepEqual(tc.slice, tc.expect) {
-				t.Errorf("NewSet(): got %v, expected %v", got, tc.expect)
+				t.Errorf("RemoveDuplicates(): got %v, expected %v", tc.slice, tc.expect)
 			}
 		})
 	}
@@ -68,9 +68,9 @@ func TestAddString(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.title, func(t *testing.T) {
-			got := goniq.Add(tc.slice, tc.element)
-			if !reflect.DeepEqual(got, tc.expect) {
-				t.Errorf("Add(): got %v, expect %v", got, tc.expect)
+			goniq.Add(&tc.slice, tc.element)
+			if !reflect.DeepEqual(tc.slice, tc.expect) {
+				t.Errorf("Add(): got %v, expect %v", tc.slice, tc.expect)
 			}
 		})
 	}
@@ -91,9 +91,9 @@ func TestAddInt(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.title, func(t *testing.T) {
-			got := goniq.Add(tc.slice, tc.element)
-			if !reflect.DeepEqual(got, tc.expect) {
-				t.Errorf("Add(): got %v, expect %v", got, tc.expect)
+			goniq.Add(&tc.slice, tc.element)
+			if !reflect.DeepEqual(tc.slice, tc.expect) {
+				t.Errorf("Add(): got %v, expect %v", tc.slice, tc.expect)
 			}
 		})
 	}
@@ -114,9 +114,9 @@ func TestAddUint(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.title, func(t *testing.T) {
-			got := goniq.Add(tc.slice, tc.element)
-			if !reflect.DeepEqual(got, tc.expect) {
-				t.Errorf("Add(): got %v, expect %v", got, tc.expect)
+			goniq.Add(&tc.slice, tc.element)
+			if !reflect.DeepEqual(tc.slice, tc.expect) {
+				t.Errorf("Add(): got %v, expect %v", tc.slice, tc.expect)
 			}
 		})
 	}
@@ -137,9 +137,9 @@ func TestAddFloat(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.title, func(t *testing.T) {
-			got := goniq.Add(tc.slice, tc.element)
-			if !reflect.DeepEqual(got, tc.expect) {
-				t.Errorf("Add(): got %v, expect %v", got, tc.expect)
+			goniq.Add(&tc.slice, tc.element)
+			if !reflect.DeepEqual(tc.slice, tc.expect) {
+				t.Errorf("Add(): got %v, expect %v", tc.slice, tc.expect)
 			}
 		})
 	}
@@ -160,9 +160,9 @@ func TestRemove(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.title, func(t *testing.T) {
-			got := goniq.Remove(tc.slice, tc.element)
-			if !reflect.DeepEqual(got, tc.expect) {
-				t.Errorf("Remove(): got %v, expect %v", got, tc.expect)
+			goniq.Remove(&tc.slice, tc.element)
+			if !reflect.DeepEqual(tc.slice, tc.expect) {
+				t.Errorf("Remove(): got %v, expect %v", tc.slice, tc.expect)
 			}
 		})
 	}
@@ -183,9 +183,9 @@ func TestRemoveInt(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.title, func(t *testing.T) {
-			got := goniq.Remove(tc.slice, tc.element)
-			if !reflect.DeepEqual(got, tc.expect) {
-				t.Errorf("Remove(): got %v, expect %v", got, tc.expect)
+			goniq.Remove(&tc.slice, tc.element)
+			if !reflect.DeepEqual(tc.slice, tc.expect) {
+				t.Errorf("Remove(): got %v, expect %v", tc.slice, tc.expect)
 			}
 		})
 	}
@@ -206,9 +206,9 @@ func TestRemoveUint(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.title, func(t *testing.T) {
-			got := goniq.Remove(tc.slice, tc.element)
-			if !reflect.DeepEqual(got, tc.expect) {
-				t.Errorf("Remove(): got %v, expect %v", got, tc.expect)
+			goniq.Remove(&tc.slice, tc.element)
+			if !reflect.DeepEqual(tc.slice, tc.expect) {
+				t.Errorf("Remove(): got %v, expect %v", tc.slice, tc.expect)
 			}
 		})
 	}
@@ -229,9 +229,9 @@ func TestRemoveFloat(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.title, func(t *testing.T) {
-			got := goniq.Remove(tc.slice, tc.element)
-			if !reflect.DeepEqual(got, tc.expect) {
-				t.Errorf("Remove(): got %v, expect %v", got, tc.expect)
+			goniq.Remove(&tc.slice, tc.element)
+			if !reflect.DeepEqual(tc.slice, tc.expect) {
+				t.Errorf("Remove(): got %v, expect %v", tc.slice, tc.expect)
 			}
 		})
 	}
