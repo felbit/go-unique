@@ -6,15 +6,11 @@
 
 >   :warning: This library is not considered stable. Therefore, caution is advised using it for production for now.
 
-Goniq is a Go language package that provides functions to add and remove elements from a (sorted) string slice.
-
 ## Goals
 
-- "out of the way": using this package should be intuitively and not require reading documentation
-- generic implementation: where-ever possible, users should not have to care about the types of things
-- idempotent behavior: running the same operation multiple times should not change the result (this is currently violated by the behavior of `Remove` on slices with non-unique entries)
-- independent: no use of external libraries (currently violated by `stretchr/testify)
-- resource conscious: use as little resources as possible
+- "out of the way"
+- generic
+- idempotent
 
 ## Functions
 
