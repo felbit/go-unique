@@ -5,29 +5,22 @@ import (
 	"sort"
 )
 
-type Signed interface {
-	~int | ~int8 | ~int16 | ~int32 | ~int64
-}
-
-type Unsigned interface {
-	~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64
-}
-
-type Int interface {
-	Signed | Unsigned
-}
-
-type Float interface {
-	~float32 | ~float64
-}
-
-type Ordered interface {
-	Float | Int | ~string
-}
-
 func sortSlice[T Ordered](s []T) []T {
 	sort.Slice(s, func(i, j int) bool { return s[i] < s[j] })
 	return s
+}
+
+// Contains inserts an element of type T into a sorted slice of elements of type T.
+// The slice is mutated in place.
+//
+// Example usage:
+//
+//	slice := []int{1, 2, 3}
+//	Contains(&slice, 3) // => true
+//	Contains(&slice, 4) // => false
+func Contains[T Ordered](s *[]T, e T) bool {
+	idx := sort.Search(len(*s), func(i int) bool { return (*s)[i] >= e })
+	return idx < len(*s) && (*s)[idx] == e
 }
 
 // RemoveDuplicates takes a slice of a `comparable` type and mutates it to only contain unique entries.
@@ -69,6 +62,20 @@ func Add[T Ordered](slice *[]T, element T) {
 	if idx == len(sorted) || sorted[idx] != element {
 		*slice = append(*slice, element)
 		return
+	}
+}
+
+// Append inserts multiple elements of type T into a sorted slice of elements of type T.
+// The function modifies the slice in place and adds new unique elements at the end.
+// Will ignore elements that are already present.
+//
+// Example:
+//
+//	slice := []int{1, 2, 4, 5}
+//	Append(&slice, 3, 6, 7, 4, 5) // => []int{1, 2, 4, 5, 3, 6, 7}
+func Append[T Ordered](slice *[]T, elements ...T) {
+	for _, e := range elements {
+		Add(slice, e)
 	}
 }
 

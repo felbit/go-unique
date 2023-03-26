@@ -11,6 +11,28 @@ import (
 
 // TODO: Use property based testing to test all possible types
 
+func TestContains(t *testing.T) {
+	type args[T goniq.Ordered] struct {
+		s *[]T
+		e T
+	}
+	type testCase[T goniq.Ordered] struct {
+		name string
+		args args[T]
+		want bool
+	}
+	tests := []testCase[int]{
+		{"empty slice", args[int]{&[]int{}, 1}, false},
+		{"non-empty slice", args[int]{&[]int{1, 2, 3}, 2}, true},
+		{"non-existing element", args[int]{&[]int{1, 2}, 3}, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equalf(t, tt.want, goniq.Contains(tt.args.s, tt.args.e), "Contains(%v, %v)", tt.args.s, tt.args.e)
+		})
+	}
+}
+
 func TestRemoveDuplicatesString(t *testing.T) {
 	testCases := []struct {
 		title  string
@@ -138,6 +160,48 @@ func TestAddFloat(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.title, func(t *testing.T) {
 			goniq.Add(&tc.slice, tc.element)
+			if !reflect.DeepEqual(tc.slice, tc.expect) {
+				t.Errorf("Add(): got %v, expect %v", tc.slice, tc.expect)
+			}
+		})
+	}
+}
+
+func TestAppendString(t *testing.T) {
+	testCases := []struct {
+		title    string
+		slice    []string
+		elements []string
+		expect   []string
+	}{
+		{"add to empty slice", []string{}, []string{"foo", "bar"}, []string{"foo", "bar"}},
+		{"add to non-empty slice", []string{"bar", "baz"}, []string{"foo", "bar"}, []string{"bar", "baz", "foo"}},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.title, func(t *testing.T) {
+			goniq.Append(&tc.slice, tc.elements...)
+			if !reflect.DeepEqual(tc.slice, tc.expect) {
+				t.Errorf("Add(): got %v, expect %v", tc.slice, tc.expect)
+			}
+		})
+	}
+}
+
+func TestAppendInt(t *testing.T) {
+	testCases := []struct {
+		title    string
+		slice    []int
+		elements []int
+		expect   []int
+	}{
+		{"add to empty slice", []int{}, []int{1, 2}, []int{1, 2}},
+		{"add to non-empty slice", []int{1, 2}, []int{3, 2}, []int{1, 2, 3}},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.title, func(t *testing.T) {
+			goniq.Append(&tc.slice, tc.elements...)
 			if !reflect.DeepEqual(tc.slice, tc.expect) {
 				t.Errorf("Add(): got %v, expect %v", tc.slice, tc.expect)
 			}
