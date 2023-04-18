@@ -84,6 +84,7 @@ func TestAddString(t *testing.T) {
 	}{
 		{"add to empty slice", []string{}, "foo", []string{"foo"}},
 		{"add to non-empty slice", []string{"bar", "baz"}, "foo", []string{"bar", "baz", "foo"}},
+		{"add to non-empty slice order", []string{"foo", "baz"}, "bar", []string{"foo", "baz", "bar"}},
 		{"add duplicate element", []string{"bar", "baz"}, "baz", []string{"bar", "baz"}},
 		{"add element that already exists in slice", []string{"bar", "baz", "foo"}, "foo", []string{"bar", "baz", "foo"}},
 	}
@@ -108,7 +109,7 @@ func TestAddInt(t *testing.T) {
 		{"add to empty slice", []int{}, 1, []int{1}},
 		{"add to non-empty slice", []int{1, 2}, 3, []int{1, 2, 3}},
 		{"add duplicate element", []int{1, 2}, 2, []int{1, 2}},
-		{"add element that already exists in slice", []int{2, 3, 1}, 2, []int{1, 2, 3}},
+		{"add element that already exists in slice", []int{2, 3, 1}, 2, []int{2, 3, 1}},
 	}
 
 	for _, tc := range testCases {
@@ -131,7 +132,7 @@ func TestAddUint(t *testing.T) {
 		{"add to empty slice", []uint{}, 1, []uint{1}},
 		{"add to non-empty slice", []uint{1, 2}, 3, []uint{1, 2, 3}},
 		{"add duplicate element", []uint{1, 2}, 2, []uint{1, 2}},
-		{"add element that already exists in slice", []uint{2, 3, 1}, 2, []uint{1, 2, 3}},
+		{"add element that already exists in slice", []uint{2, 3, 1}, 2, []uint{2, 3, 1}},
 	}
 
 	for _, tc := range testCases {
@@ -154,7 +155,7 @@ func TestAddFloat(t *testing.T) {
 		{"add to empty slice", []float32{}, 1.3, []float32{1.3}},
 		{"add to non-empty slice", []float32{1.2, 2.3}, 3.4, []float32{1.2, 2.3, 3.4}},
 		{"add duplicate element", []float32{1.2, 2.3}, 2.3, []float32{1.2, 2.3}},
-		{"add element that already exists in slice", []float32{2.4, 2.3, 2.1}, 2.3, []float32{2.1, 2.3, 2.4}},
+		{"add element that already exists in slice", []float32{2.4, 2.3, 2.1}, 2.3, []float32{2.4, 2.3, 2.1}},
 	}
 
 	for _, tc := range testCases {

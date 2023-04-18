@@ -57,8 +57,12 @@ func RemoveDuplicates[C comparable](slice *[]C) {
 //	Add(&slice, 3) //  => []int{1, 2, 4, 5, 3}
 func Add[T Ordered](slice *[]T, element T) {
 	// check if the element is in the slice
-	sorted := sortSlice(*slice)
+	sorted := make([]T, len(*slice))
+	copy(sorted, *slice)
+
+	sorted = sortSlice(sorted)
 	idx := sort.Search(len(sorted), func(i int) bool { return sorted[i] >= element })
+
 	if idx == len(sorted) || sorted[idx] != element {
 		*slice = append(*slice, element)
 		return
