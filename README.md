@@ -5,9 +5,7 @@
 
 *go unique* ... simple set-like operations for Go slices.
 
-> :warning: This library can not be considered stable. I actively change it depending on needs in my projects and
-> currently don't follow a clear agenda. Moreover, I use this library to teach myself Go Generics.
-> If you want to use it, please pin the version you use. And make sure it does what you expect.
+> :warning: This repository is archived and sunsetting because I started work on [set](github.com/felbit/go-set). `set` is basicall goniq2, with a different name. `goniq` stays here because some private projects depend on it.
 
 ## Goals
 
